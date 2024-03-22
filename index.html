@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Alarm Dismissal App</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #121212;
+        color: #fff;
+        overflow: hidden;
+      }
+
+      .title-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        background: #1e1e1e;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        font-size: 18px;
+        z-index: 9;
+        -webkit-user-select: none;
+        -webkit-app-region: drag;
+      }
+
+      .title-bar button {
+        /* Shared button styles */
+        -webkit-app-region: no-drag;
+        border: none;
+        border-radius: 3px;
+        color: white;
+        padding: 5px 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 14px;
+      }
+
+      .title-bar #closeBtn {
+        /* Styles specific to the collapse button */
+        margin-left: auto; /* Pushes the button to the left side */
+        background-color: #d32f2f;
+      }
+
+      .title-bar #closeBtn:hover {
+        background-color: #b71c1c;
+      }
+
+      .content {
+        flex: 1;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 60px 20px;
+        padding-bottom: 90px; /* Height of title bar */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px; /* Spacing between items */
+      }
+
+      .content::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+
+      .input-container {
+        display: flex;
+        width: 100%;
+        max-width: 400px; /* Maximum width of input container */
+        gap: 10px;
+      }
+
+      .input-container label {
+        color: #aaa; /* Lighter text color for labels */
+        font-size: 16px; /* Larger font size for visibility */
+      }
+
+      .input-container input {
+        background: #333;
+        color: #fff;
+        border: 1px solid #555;
+        border-radius: 4px;
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box; /* Include padding and border in the width */
+        font-size: 16px;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: start;
+        gap: 10px;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      button {
+        background: #333;
+        color: #fff;
+        border: 1px solid #555;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding: 10px 20px;
+        font-size: 16px;
+        white-space: nowrap; /* Prevent wrapping text in buttons */
+      }
+
+      button:hover {
+        background-color: #555;
+      }
+
+      .time-left {
+        background: #1e1e1e; /* To match the title bar */
+        padding: 10px 0; /* Add some vertical padding */
+        text-align: center;
+        position: fixed; /* Fixed position */
+        bottom: 0; /* Anchored at the bottom */
+        left: 0;
+        right: 0;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #4caf50; /* A green color to make it stand out */
+        z-index: 10;
+        -webkit-app-region: drag; /* Make the time-left area draggable */
+      }
+
+      .countdown {
+        -webkit-app-region: no-drag; /* Make the time-left area draggable */
+        user-select: none;
+        display: inline-block;
+      }
+
+      @media (max-width: 600px) {
+        .input-container,
+        .actions {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .input-container input,
+        .actions button {
+          width: 100%;
+          margin: 0;
+        }
+
+        .input-container label {
+          align-self: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title-bar">
+      <button id="collapseBtn">Collapse</button>
+      <button id="closeBtn" onclick="closeWindow()" style="margin-left: auto">
+        X
+      </button>
+    </div>
+    <div class="content">
+      <h1>Alarm App</h1>
+      <div class="input-container">
+        <div>
+          <label
+            for="intervalMinutesInput"
+            style="display: block; margin-bottom: 4px"
+            >Minutes:</label
+          >
+          <input
+            type="number"
+            id="intervalMinutesInput"
+            placeholder="Enter interval in minutes"
+            step="1"
+            min="0"
+            value="0"
+          />
+        </div>
+        <div>
+          <label
+            for="intervalSecondsInput"
+            style="display: block; margin-bottom: 4px"
+            >Seconds:</label
+          >
+          <input
+            type="number"
+            id="intervalSecondsInput"
+            placeholder="Enter interval in seconds"
+            step="1"
+            min="0"
+            max="59"
+            value="0"
+          />
+        </div>
+      </div>
+      <div class="actions">
+        <button id="setAlarmBtn">Set Alarm</button>
+        <button id="dismissBtn">Dismiss Alarm</button>
+      </div>
+    </div>
+    <div id="timeLeft" class="time-left">
+      <div>
+        Time left:
+        <div id="countdown" class="countdown">--:--</div>
+      </div>
+    </div>
+    <script src="js/renderer.js"></script>
+    <script>
+      function closeWindow() {
+        window.close();
+      }
+    </script>
+  </body>
+</html>
